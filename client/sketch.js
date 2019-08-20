@@ -39,6 +39,8 @@ let showUpgradesCounter = 0;
 
 let drawUserStats = function () {
 
+    if(loginState) return;
+
     //Draw username
     ctxUi.font = '35px Ubuntu';
     ctxUi.fillStyle = 'white';
