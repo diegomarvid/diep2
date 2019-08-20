@@ -94,6 +94,7 @@ class Player extends Entity {
         //Attack UI
         this.pressingAttack = false;
         this.attackCounter = 0;
+        this.autoFire = false;
 
         this.upgradePoints = 0;
 
@@ -134,8 +135,6 @@ class Player extends Entity {
 
             if (t.id !== this.id && distance < 2) {
 
-                if (t.hp === 0) return;
-
                 t.isHit = true;
                 t.hpTimerCounter = 0;
 
@@ -144,18 +143,6 @@ class Player extends Entity {
 
                 t.hp -= ((this.bodyDamage) / (t.bodyDamage + this.bodyDamage)) * 1.5;
                 this.hp -= ((t.bodyDamage) / (this.bodyDamage + t.bodyDamage)) * 1.5;
-
-                // this.vx = (this.vx * (this.mass - t.mass) + (2 * t.mass * t.x)) / (this.mass + t.mass);
-
-                // this.vx *= 0.03;
-
-                // this.vy = (this.vy * (this.mass - t.mass) + (2 * t.mass * t.y)) / (this.mass + t.mass);
-                // this.vy *= 0.03;
-
-                // t.vx = (t.vx * (t.mass - this.mass) + (2 * this.mass * this.x)) / (this.mass + t.mass);
-                // t.vx *= 0.03;
-                // t.vy = (t.vy * (t.mass - this.mass) + (2 * this.mass * this.y)) / (this.mass + t.mass);
-                // t.vy *= 0.03;
 
                 if (this.hp <= 0) {
                     t.score += 10;
@@ -227,7 +214,7 @@ class Player extends Entity {
     attack() {
 
 
-        if (this.pressingAttack) {
+        if (this.pressingAttack || this.autoFire) {
             if (this.attackCounter > 25) {
                 this.shootBullet(this.mouseAngle);
                 this.attackCounter = 0;
@@ -249,8 +236,10 @@ class Player extends Entity {
             this.applyForce(0, this.movementSpeed);
         }
 
-        if (this.autoSpin)
-            this.mouseAngle += 0.05;
+        if (this.autoSpin) {
+            this.mouseAngle += 0.1;
+        }
+
 
         let lastx = this.x;
         let lasty = this.y;
@@ -438,8 +427,15 @@ Player.onConnect = function (socket) {
             player.pressingDown = data.state;
         } else if (data.inputId == 'attack') {
             player.pressingAttack = data.state
-        } else if (data.inputId == 'mouseAngle') {
-            player.mouseAngle = data.state
+        } else if (data.inputId == 'autoSpin') {
+            player.autoSpin = data.state;
+        } else if (data.inputId == 'autoFire') {
+            player.autoFire = data.state;
+        }
+        else if (data.inputId == 'mouseAngle') {
+            if (!player.autoSpin) {
+                player.mouseAngle = data.state
+            }
         }
 
     });
@@ -506,7 +502,7 @@ class Bullet extends Entity {
                 if (t.hp <= 0) {
 
                     let shooter = Player.list[this.parent];
-                    
+
                     t.respawn();
 
                     if (shooter) {

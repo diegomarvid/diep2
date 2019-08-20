@@ -23,6 +23,9 @@ class Player {
 
         this.upgradePoints = 0;
 
+        this.autoFire = false;
+        this.autoSpin = false;
+
         //Habilities
         this.hpMax = initPack.hpMax;
         this.hp = this.hpMax;
@@ -59,10 +62,13 @@ class Player {
 
 
         //Torreta
-        if(this.id == selfId)
+        if(this.id == selfId && !this.autoSpin){
             ctx.rotate(clientAngle - Math.PI / 2);
-        else
+        }
+        else {
             ctx.rotate(this.mouseAngle - Math.PI / 2);
+        }
+            
 
         ctx.fillStyle = torret_color;
         ctx.lineWidth = 3;

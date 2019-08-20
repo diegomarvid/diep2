@@ -131,20 +131,25 @@ document.onkeydown = function (event) {
         return;
     }
 
-    if(event.keyCode === 68){
-        socket.emit('keyPress', {inputId: 'right', state: true});
-    }
-        
+    myPlayer = Player.list[selfId];
+
+    if(event.keyCode === 68)
+        socket.emit('keyPress', {inputId: 'right', state: true});      
     else if(event.keyCode === 65)    
         socket.emit('keyPress', {inputId: 'left', state: true});    
     else if(event.keyCode === 83)    
         socket.emit('keyPress', {inputId: 'down', state: true})
     else if(event.keyCode === 87)    
         socket.emit('keyPress', {inputId: 'up', state: true});
-   // else if(event.keyCode === 69)    
-       // socket.emit('keyPress', {inputId: 'autoFire', state: true});
-    //else if(event.keyCode === 67) 
-        //socket.emit('keyPress', {inputId: 'autoSpin', state: true});  
+    else if(event.keyCode === 69) {
+        myPlayer.autoFire = !myPlayer.autoFire;
+        socket.emit('keyPress', {inputId: 'autoFire', state: myPlayer.autoFire});
+    }        
+    else if(event.keyCode === 67) {
+        myPlayer.autoSpin = !myPlayer.autoSpin;
+        socket.emit('keyPress', {inputId: 'autoSpin', state: myPlayer.autoSpin }); 
+    }
+        
     
 }
 
@@ -183,9 +188,13 @@ document.onmouseup = function (event) {
 
 document.onmousemove = function (event) {
 
-    if(!selfId) {
+    if(!selfId ) {
         return;
     }
+
+    if(Player.list[selfId].autoSpin) return;
+    
+
 
     //if (!tank.autoSpin) {
     let angle = Math.atan2((-CANVAS_HEIGHT / 2 + event.clientY), (-CANVAS_WIDTH / 2 + event.clientX));
