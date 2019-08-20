@@ -59,7 +59,10 @@ class Player {
 
 
         //Torreta
-        ctx.rotate(clientAngle - Math.PI / 2);
+        if(this.id == selfId)
+            ctx.rotate(clientAngle - Math.PI / 2);
+        else
+            ctx.rotate(this.mouseAngle - Math.PI / 2);
 
         ctx.fillStyle = torret_color;
         ctx.lineWidth = 3;
