@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:700' rel='stylesheet' type='text/css'>
+
+    <title>Diep.io</title>
+
+
+    
+
+
+</head>
+
+<body style="overflow: hidden">
+
+    <div id='gameDiv'>
+        <div id='game' class='font-effect-outline'>
+            <canvas id='canvas' width='500' height='500'
+                style='margin: 0px auto; position: absolute; border:1px solid #000000;'></canvas>
+            <canvas id='canvas-ui' width='500' height='500'
+                style="position: absolute;  border:1px solid #000000; "></canvas>
+
+            <div id='ui' style='position: absolute; width: 500px; height: 500px'></div>
+
+        </div>
+    </div>
+
+
+    <script src="/client/consts.js"></script>
+    <script src="/client/entity.js"></script>
+
+    <script>
+            let socket = io();
+
+            let selfId = null;
+            let myPlayer = null;
+
+            //init
+            socket.on('init', function (data) {
+
+                for (let i = 0; i < data.player.length; i++) {
+                    new Player(data.player[i]);
+                }
+
+                for (let i = 0; i < data.bullet.length; i++) {
+                    new Bullet(data.bullet[i]);
+                }
+
+                if (data.selfId) {
+                    selfId = data.selfId;
+                    myPlayer = Player.list[selfId];
+                }
+
+            });
+
+            //update
+
+            socket.on('update', function (data) {
+
+                let pack;
+                let p;
+                let b;
+
+                for (let i = 0; i < data.player.length; i++) {
+                    pack = data.player[i];
+                    p = Player.list[pack.id];
+
+                    if (p) {
+                        if (pack.x !== undefined)
+                            p.x = pack.x;
+                        if (pack.y !== undefined)
+                            p.y = pack.y;
+                        if (pack.hp !== undefined)
+                            p.hp = pack.hp;
+                        if (pack.score !== undefined)
+                            p.score = pack.score;
+                        if (pack.mouseAngle !== undefined)
+                            p.mouseAngle = pack.mouseAngle;
+
+                    }
+                }
+
+                for (let i = 0; i < data.bullet.length; i++) {
+                    pack = data.bullet[i];
+                    b = Bullet.list[pack.id];
+
+                    if (b) {
+                        if (pack.x !== undefined) {
+                            b.x = pack.x;
+                        }
+                        if (pack.y !== undefined) {
+                            b.y = pack.y;
+                        }
+                    }
+
+                }
+            });
+
+            //remove
+
+            socket.on('remove', function (data) {
+
+                for (let i = 0; i < data.player.length; i++) {
+                    delete Player.list[data.player[i]];
+                }
+                for (let i = 0; i < data.bullet.length; i++) {
+                    delete Bullet.list[data.bullet[i]];
+                }
+            });
+
+
+
+
+    </script>
+
+
+    <script src="/client/sketch.js"></script>
+
+</body>
+
+</html>
