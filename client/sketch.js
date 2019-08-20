@@ -9,6 +9,7 @@ let WIDTH = 1520;
 let HEIGHT = 855;
 let CANVAS_WIDTH = 1520;
 let CANVAS_HEIGHT = 855;
+
 let initCanvas = false;
 
 let clientAngle = 0;
@@ -94,6 +95,8 @@ let initGame = setInterval(function(){
         console.log('got id')
         clearInterval(initGame);
         initCanvas = true;
+        WIDTH += 16 * Player.list[selfId].fov;
+        HEIGHT += 9 * Player.list[selfId].fov;
         resizeCanvas();
     }
 },20)

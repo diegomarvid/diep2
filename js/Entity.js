@@ -105,6 +105,7 @@ class Player extends Entity {
         this.movementSpeed = 0.4;
         this.bodyDamage = 7;
         this.regen = 3 / 500;
+        this.fov = 0;
 
         Player.list[this.id] = this;
 
@@ -346,7 +347,8 @@ class Player extends Entity {
             score: this.score,
             lvl: this.lvl,
             r: this.r,
-            hpMax: this.hpMax
+            hpMax: this.hpMax,
+            fov: this.fov
         }
     }
 
@@ -500,9 +502,7 @@ class Bullet extends Entity {
 
             if (this.parent !== t.id && distance < 1) {
                 t.hp -= this.damage;
-                t.isHit = true;
-                t.hpTimerCounter = 0;
-
+    
 
                 if (t.hp <= 0) {
 
@@ -514,7 +514,7 @@ class Bullet extends Entity {
                         shooter.score += 10;
                     }
 
-                }
+                } 
 
                 this.toRemove = true;
 

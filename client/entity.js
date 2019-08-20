@@ -33,6 +33,7 @@ class Player {
         this.movementSpeed = 2;
         this.bodyDamage = 7;
         this.regen = 3 / 500;
+        this.fov = initPack.fov;
         
         Player.list[this.id] = this;
     }
