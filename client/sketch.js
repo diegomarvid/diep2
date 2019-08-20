@@ -11,6 +11,8 @@ let CANVAS_WIDTH = 1520;
 let CANVAS_HEIGHT = 855;
 let initCanvas = false;
 
+let clientAngle = 0;
+
 
 let canvas = document.getElementById('canvas')
 var ctx = canvas.getContext("2d");
@@ -191,6 +193,7 @@ document.onmousemove = function (event) {
     //if (!tank.autoSpin) {
     let angle = Math.atan2((-CANVAS_HEIGHT / 2 + event.clientY), (-CANVAS_WIDTH / 2 + event.clientX));
     //}
+    clientAngle = angle;
 
     Player.list[selfId].mouseAngle = angle;
 

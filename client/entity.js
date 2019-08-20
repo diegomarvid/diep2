@@ -59,7 +59,7 @@ class Player {
 
 
         //Torreta
-        ctx.rotate(this.mouseAngle - Math.PI / 2);
+        ctx.rotate(clientAngle - Math.PI / 2);
 
         ctx.fillStyle = torret_color;
         ctx.lineWidth = 3;
