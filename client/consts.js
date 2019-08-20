@@ -15,7 +15,7 @@ const torret_color = 'rgb(153,153,153)';
 const torret_border_color = 'rgba(114, 114, 114)';
 
 //Torrets - despues se va a ir
-const torret_width = 20;
+const torret_width = 40;
 const torret_height = 50;
 
 //Shape colors

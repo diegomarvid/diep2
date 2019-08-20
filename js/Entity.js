@@ -1,4 +1,4 @@
-const torret_width = 20;
+const torret_width = 40;
 const torret_height = 50;
 
 class Entity {
@@ -99,8 +99,10 @@ class Player extends Entity {
         this.upgradePoints = 0;
 
         //Habilities
-        this.reload = 2;
-        this.movementSpeed = 2;
+        this.bulletSpeed = 6;
+        this.bulletDamage = 20;
+        this.reload = 0.7;
+        this.movementSpeed = 0.8;
         this.bodyDamage = 7;
         this.regen = 3 / 500;
 
@@ -308,10 +310,12 @@ class Player extends Entity {
             angle: angle,
             x: this.x + torret_height * Math.cos(angle),
             y: this.y + torret_height * Math.sin(angle),
-            r: torret_width / 2
+            r: torret_width / 2,
+            speed: this.bulletSpeed,
+            damage: this.bulletDamage
         })
 
-        this.recoil(angle, 1);
+        this.recoil(angle, 8);
 
     }
 
@@ -457,7 +461,7 @@ class Bullet extends Entity {
 
         super(param);
 
-        this.speed = 15;
+        this.speed = param.speed;
 
         this.vx = Math.cos(param.angle) * this.speed;
         this.vy = Math.sin(param.angle) * this.speed;
@@ -469,7 +473,7 @@ class Bullet extends Entity {
 
         this.id = Math.random();
 
-        this.damage = 5;
+        this.damage = param.damage;
         this.penetration = 5;
 
         Bullet.list[this.id] = this;
