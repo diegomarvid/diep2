@@ -101,8 +101,8 @@ class Player extends Entity {
         //Habilities
         this.bulletSpeed = 6;
         this.bulletDamage = 20;
-        this.reload = 0.7;
-        this.movementSpeed = 0.8;
+        this.reload = 0.6;
+        this.movementSpeed = 0.4;
         this.bodyDamage = 7;
         this.regen = 3 / 500;
 
