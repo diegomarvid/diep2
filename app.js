@@ -55,4 +55,4 @@ setInterval(function() {
 
     }
 
-}, 30)
+}, 20)
