@@ -237,7 +237,7 @@ class Player extends Entity {
         }
 
         if (this.autoSpin) {
-            this.mouseAngle += 0.1;
+            this.mouseAngle += 0.05;
         }
 
 
