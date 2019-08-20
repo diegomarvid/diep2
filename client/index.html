@@ -12,7 +12,39 @@
 
     <title>diep.io</title>
 
+    <style type="text/css"> 
 
+        input, label {
+            display:block;
+        }
+
+        #loginInput {
+            position:absolute;
+            top: 50%;
+            left: 45%;
+  
+            padding: 1px;
+            margin : 0px;
+            float: left;
+
+        }
+
+        
+
+        #loginDiv {
+            position:absolute;
+            background: url('/client/resources/login.png');
+            background-size: 1000px 600px;
+            width: 100%;
+            height: 100%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+    </style>
     
 
 
@@ -20,7 +52,16 @@
 
 <body style="overflow: hidden">
 
-    <div id='gameDiv'>
+    <div id = 'loginDiv'>
+        <div id = "loginInput">
+            <label for="username" style = "margin-right: 20px;">This is the tale of...</label>
+            <input id = 'username' style = "border: 3px solid #000000; border-radius: 5px; " type="text" maxlength="15">  
+            <label for="username" style = "font-size: 10px; left: 22%; position: absolute">(Press enter to spawn)</label>
+        </div>
+        
+    </div>
+
+    <div id='gameDiv' style = "display: none;">
         <div id='game' class='font-effect-outline'>
             <canvas id='canvas' width='500' height='500'
                 style='margin: 0px auto; position: absolute; border:1px solid #000000;'></canvas>
@@ -37,10 +78,28 @@
     <script src="/client/entity.js"></script>
 
     <script>
+
+
             let socket = io();
+
+            let loginState = true;
+
+            let loginDiv = document.getElementById('loginDiv');
+            let gameDiv = document.getElementById('gameDiv');
 
             let selfId = null;
             let myPlayer = null;
+
+            socket.on('logInResponse', function(data) {
+                if(data.success) {
+                    loginState = false;
+                    loginDiv.style.display = 'none';
+                    gameDiv.style.display = 'inline-block';
+                } else{
+                    alert('log in unsuccessful');
+                }
+
+            });
 
             //init
             socket.on('init', function (data) {

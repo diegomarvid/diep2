@@ -1,3 +1,6 @@
+
+
+
 //Map and Tank
 
 let mapImg = new Image();
@@ -23,6 +26,7 @@ let canvasUi = document.getElementById("canvas-ui");
 let ctxUi = canvasUi.getContext("2d");
 ctxUi.font = '30px Ubuntu';
 ctx.font = '20px Ubuntu';
+
 
 
 
@@ -129,6 +133,13 @@ setInterval(function () {
 
 document.onkeydown = function (event) {
 
+
+    //Enter username
+    if(event.keyCode === 13 && loginState) {
+        let username_text = document.getElementById('username').value;
+        if(username_text.length <= 2) return;
+        socket.emit('logIn', {username: username_text});
+    }
 
     if(!selfId){
         return;

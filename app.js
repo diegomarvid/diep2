@@ -30,7 +30,11 @@ io.sockets.on('connection', function(socket) {
     socket.id = Math.random();
     SOCKET_LIST[socket.id] = socket;
 
-    e.Player.onConnect(socket);
+    socket.on('logIn', function(data) {
+        e.Player.onConnect(socket, data.username);
+        socket.emit('logInResponse', {success: true});
+    });
+    
 
     socket.on('disconnect', function() {
         delete SOCKET_LIST[socket.id];

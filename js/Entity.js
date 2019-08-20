@@ -72,6 +72,7 @@ class Player extends Entity {
 
         //Identifier
         this.id = param.id;
+        this.username = param.username;
 
         //Position variables
         this.ax = 0;
@@ -82,7 +83,7 @@ class Player extends Entity {
         this.score = 0;
         this.lvl = 1;
         this.class = 'Tank';
-        this.username = 'julianbox';
+        
 
         //Movement UI
         this.pressingUp = false;
@@ -342,6 +343,7 @@ class Player extends Entity {
     getInitPack() {
         return {
             id: this.id,
+            username: this.username,
             x: this.x,
             y: this.y,
             score: this.score,
@@ -396,7 +398,7 @@ Player.getAllInitPack = function () {
     return players;
 }
 
-Player.onConnect = function (socket) {
+Player.onConnect = function (socket, username) {
 
     let max = 1500;
     let min = 1000;
@@ -406,6 +408,7 @@ Player.onConnect = function (socket) {
     //Create player
     let player = new Player({
         id: socket.id,
+        username: username,
         socket: socket,
         x: x,
         y: y,
