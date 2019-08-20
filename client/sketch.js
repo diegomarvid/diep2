@@ -75,10 +75,10 @@ let resizeCanvas = function () {
     canvasUi.style.height = `${CANVAS_HEIGHT}px`;
 
 
-    if(selfId) {
-        drawUserStats();
-        drawScore(true);
-    }
+    
+    drawUserStats();
+    drawScore(true);
+    
     
 
 
@@ -88,9 +88,6 @@ window.addEventListener('resize', function () {
     resizeCanvas();
 })
 
-
-
-resizeCanvas();
 //Init
 let initGame = setInterval(function(){
     if(selfId){

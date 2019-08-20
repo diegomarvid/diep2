@@ -103,13 +103,20 @@ class Player {
 
 
         //Tank body
-        ctx.fillStyle = blue;
+        if(this.id == selfId){
+            ctx.fillStyle = blue;
+            ctx.strokeStyle = blue_border;
+        }      
+        else{
+            ctx.fillStyle = red;
+            ctx.strokeStyle = red_border;
+        }            
         ctx.beginPath();
         ctx.lineWidth = 3;
         ctx.arc(x, y, this.r, 0, 2 * Math.PI);
         ctx.fill();
         //Tank border
-        ctx.strokeStyle = blue_border;
+        
         ctx.stroke();
 
 
@@ -140,6 +147,7 @@ class Bullet {
         this.y = initPack.y;
 
         this.r = initPack.r;
+        this.parent = initPack.parent;
 
         this.timer = 0;
         this.toRemove = 0;
@@ -158,13 +166,19 @@ class Bullet {
         let x = this.x - Player.list[selfId].x + WIDTH / 2;
         let y = this.y - Player.list[selfId].y + HEIGHT / 2;
         
-        ctx.fillStyle = blue;
+        if(this.parent == selfId){
+            ctx.fillStyle = blue;
+            ctx.strokeStyle = blue_border;
+        }      
+        else{
+            ctx.fillStyle = red;
+            ctx.strokeStyle = red_border;
+        } 
 
         ctx.beginPath();
         ctx.lineWidth = 3;
         ctx.arc(x, y, this.r ,0, 2* Math.PI);
         ctx.fill();
-        ctx.strokeStyle = blue_border;
         ctx.stroke();
 
 

@@ -558,7 +558,8 @@ class Bullet extends Entity {
             id: this.id,
             x: this.x,
             y: this.y,
-            r: this.r
+            r: this.r,
+            parent: this.parent
         }
     }
 
