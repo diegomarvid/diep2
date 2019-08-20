@@ -48,15 +48,8 @@ class Player {
         let x = this.x - Player.list[selfId].x + WIDTH / 2;
         let y = this.y - Player.list[selfId].y + HEIGHT / 2;
 
-        // ctxUi.clearRect(x - 100 , y - 72, 200, 42)
-        // //ctxUi.strokeRect(x - 100 , y - 72, 200, 42)
-        // //Draw username
-        // ctxUi.font = '20px Lexend Exa';
-        // ctxUi.fillStyle = 'black';
-        // ctxUi.textAlign = 'center'
-        // ctxUi.fillText(this.username, x, y - 50)
 
-
+        
         ctx.save();
 
         ctx.translate(x, y);
@@ -127,7 +120,22 @@ class Player {
         ctx.stroke();
 
 
+         
+        //Draw username
+        ctx.font = '25px Ubuntu';
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'black'
+        ctx.textAlign = 'center'
+        ctx.lineWidth = 1.2;
+        if(this.id !== selfId) {
+           ctx.fillText(this.username, x, y - 60)
+           ctx.strokeText(this.username, x, y - 60)
+           ctx.font = '20px Ubuntu';
+           ctx.lineWidth = 1.0;
+           ctx.fillText(this.score, x, y - 35)
+           ctx.strokeText(this.score, x, y - 35)
 
+        }
 
 
 
