@@ -50,6 +50,6 @@ const upperLimit = 891;
 const bottomLimit = 7127;
 
 //Lvl scores
-const lvlScore = [0, 10, 20, 40, 70, 120, 200, 300, 500];
+const lvlScore = [0, 10, 20, 40, 70, 120, 200, 300, 500, 1000, 2000, 4000, 8000, 15000];
 
 

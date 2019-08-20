@@ -490,6 +490,7 @@ class Bullet extends Entity {
         }
 
         let t;
+        let b;
         let distance;
 
         for (let i in Player.list) {
@@ -520,6 +521,22 @@ class Bullet extends Entity {
             }
 
 
+        }
+
+        for(let i in Bullet.list) {
+            b = Bullet.list[i];
+            distance = b.getDistance(this) - b.r - this.r;
+
+            if(distance < 1 && b.id !== this.id) {
+                if(this.penetration > b.penetration) {
+                    b.toRemove = true;
+                } else if(b.penetration > this.penetration) {
+                    this.toRemove = true;
+                } else{
+                    b.toRemove = true;
+                    this.toRemove = true;
+                }
+            }
         }
 
         // let s;
