@@ -122,7 +122,7 @@ setInterval(function () {
 
     displayUpgrades();
 
-}, 20)
+}, 25)
 
 
 document.onkeydown = function (event) {
