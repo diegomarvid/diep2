@@ -154,7 +154,7 @@ class Player extends Entity {
                 if (t.hp <= 0) {
                     this.score += 10;
                     t.respawn();
-
+                    this.socket.emit('kill', {id: t.id, username: t.username});
                 }
             }
         }
