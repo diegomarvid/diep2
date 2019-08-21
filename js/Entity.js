@@ -73,6 +73,7 @@ class Player extends Entity {
         //Identifier
         this.id = param.id;
         this.username = param.username;
+        this.socket = param.socket;
 
         //Position variables
         this.ax = 0;
@@ -100,12 +101,14 @@ class Player extends Entity {
         this.upgradePoints = 0;
 
         //Habilities
+        this.regen = 3 / 500;
+        this.bodyDamage = 7;
         this.bulletSpeed = 6;
         this.bulletDamage = 20;
         this.reload = 0.6;
         this.movementSpeed = 0.4;
-        this.bodyDamage = 7;
-        this.regen = 3 / 500;
+        
+        
         this.fov = 0;
 
         Player.list[this.id] = this;
@@ -139,11 +142,6 @@ class Player extends Entity {
 
             if (t.id !== this.id && distance < 2) {
 
-                t.isHit = true;
-                t.hpTimerCounter = 0;
-
-                this.isHit = true;
-                this.hpTimerCounter = 0;
 
                 t.hp -= ((this.bodyDamage) / (t.bodyDamage + this.bodyDamage)) * 1.5;
                 this.hp -= ((t.bodyDamage) / (this.bodyDamage + t.bodyDamage)) * 1.5;
@@ -314,7 +312,8 @@ class Player extends Entity {
             y: this.y + torret_height * Math.sin(angle),
             r: torret_width / 2,
             speed: this.bulletSpeed,
-            damage: this.bulletDamage
+            damage: this.bulletDamage,
+            socket: this.socket
         })
 
         this.recoil(angle, 8);
@@ -477,6 +476,7 @@ class Bullet extends Entity {
         this.toRemove = 0;
 
         this.id = Math.random();
+        this.socket = param.socket;
 
         this.damage = param.damage;
         this.penetration = 5;
@@ -510,6 +510,8 @@ class Bullet extends Entity {
                 if (t.hp <= 0) {
 
                     let shooter = Player.list[this.parent];
+
+                    this.socket.emit('kill', {id: t.id, username: t.username});
 
                     t.respawn();
 

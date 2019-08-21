@@ -224,6 +224,7 @@ class Square {
 
         Square.list[this.id] = this;
 
+
     }
 
     show() {

@@ -17,6 +17,7 @@ let initCanvas = false;
 
 let clientAngle = 0;
 
+let frameCounter = 0;
 
 let canvas = document.getElementById('canvas')
 var ctx = canvas.getContext("2d");
@@ -36,6 +37,10 @@ ctx.font = '20px Ubuntu';
 let lastScore = null;
 let showUpgrades = false;
 let showUpgradesCounter = 0;
+
+let showNotification = false;
+let showNotificationCounter = 0;
+let notificationText = "";
 
 let drawUserStats = function () {
 
@@ -105,7 +110,13 @@ let initGame = setInterval(function(){
         HEIGHT += 9 * Player.list[selfId].fov;
         resizeCanvas();
     }
-},20)
+},20);
+
+socket.on('kill', function(data) {
+    showNotification = true;
+    showNotificationCounter = 0;
+    notificationText = `You have killed ${data.username}`;
+});
 
 
 //Main Loop
@@ -119,6 +130,7 @@ setInterval(function () {
 
     drawScore();
 
+    notificationRect(notificationText);
 
     for(let i in Player.list) {
         Player.list[i].show();
@@ -129,6 +141,12 @@ setInterval(function () {
     }
 
     displayUpgrades();
+
+    frameCounter++;
+
+    if(frameCounter > 99999999) {
+        frameCounter = 0;
+    }
 
 }, 18)
 
@@ -492,6 +510,29 @@ function roundRect2(ctx, x, y, width, height, radius, fill, stroke) {
     }
 
     ctx.restore();
+
+
+}
+
+function notificationRect(text) {
+    
+    if(showNotificationCounter > 150) {
+        showNotificationCounter = 0;
+        showNotification = false;
+    }
+
+    if(showNotification) {
+
+        showNotificationCounter++;
+
+        ctx.fillStyle = blue;
+        const length = 330;
+        ctx.fillRect( WIDTH / 2 - length / 2, 20, length, 30 );
+        ctx.fillStyle = 'white';
+        ctx.font = '20px Ubuntu'
+        ctx.fillText(text,  WIDTH / 2 , 43);
+    }
+
 
 
 }
