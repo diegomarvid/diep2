@@ -59,4 +59,4 @@ setInterval(function() {
 
     }
 
-}, 20)
+}, 18)
