@@ -146,16 +146,20 @@ class Player extends Entity {
                 t.hp -= ((this.bodyDamage) / (t.bodyDamage + this.bodyDamage)) * 1.5;
                 this.hp -= ((t.bodyDamage) / (this.bodyDamage + t.bodyDamage)) * 1.5;
 
+                if (t.hp <= 0) {
+                    this.score += 10;
+                    this.socket.emit('kill', {id: t.id, username: t.username});
+                    t.respawn();
+                    
+                }
+
                 if (this.hp <= 0) {
                     t.score += 10;
+                    t.socket.emit('kill', {id: this.id, username: this.username});
                     this.respawn();
 
                 }
-                if (t.hp <= 0) {
-                    this.score += 10;
-                    t.respawn();
-                    this.socket.emit('kill', {id: t.id, username: t.username});
-                }
+                
             }
         }
 

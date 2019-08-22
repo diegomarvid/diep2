@@ -6,6 +6,9 @@
 let mapImg = new Image();
 mapImg.src = '/client/resources/tutorial5.png';
 
+let mouseX = 0;
+let mouseY = 0;
+
 //CANVAS
 
 let WIDTH = 1520;
@@ -113,6 +116,7 @@ let initGame = setInterval(function(){
 },20);
 
 socket.on('kill', function(data) {
+    console.log('kill')
     showNotification = true;
     showNotificationCounter = 0;
     notificationText = `You have killed ${data.username}`;
@@ -226,13 +230,19 @@ document.onmousemove = function (event) {
         return;
     }
 
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+
+    if(mouseX < 0.187 * CANVAS_WIDTH && mouseY > CANVAS_HEIGHT * 0.68) {
+        showUpgrades = true;
+        showUpgradesCounter = 0;
+    }
+
     if(Player.list[selfId].autoSpin) return;
     
-
-
-    //if (!tank.autoSpin) {
+    
     let angle = Math.atan2((-CANVAS_HEIGHT / 2 + event.clientY), (-CANVAS_WIDTH / 2 + event.clientX));
-    //}
+    
     clientAngle = angle;
 
     Player.list[selfId].mouseAngle = angle;
@@ -341,7 +351,7 @@ function displayUpgrades(resizing) {
         showUpgradesCounter = 0;
     }
 
-    if (showUpgradesCounter > 300) {
+    if (showUpgradesCounter > 80) {
         showUpgrades = false;
         showUpgradesCounter = 0;
         ctxUi.clearRect(35, HEIGHT - 315, 335, 290);
@@ -356,7 +366,7 @@ function displayUpgrades(resizing) {
         
         ctxUi.save();
 
-        ctxUi.translate(355,  HEIGHT - 290);
+        ctxUi.translate(315,  HEIGHT - 290);
     
         ctxUi.rotate( - Math.PI / 6)
 
@@ -383,23 +393,23 @@ function displayUpgrades(resizing) {
             ctxUi.fillStyle = upg_color_list[i].color;
             ctxUi.strokeStyle = upg_color;
             ctxUi.lineWidth = 2;
-            roundRect(ctxUi, 270, y - 30, 60, 25, 15, true, true);
+            roundRect(ctxUi, 225, y - 30, 60, 25, 15, true, true);
 
             //Background
             
             ctxUi.fillStyle = upg_color;
-            roundRect2(ctxUi, 40, y - 30, 260, 25, 15, true, true);
+            roundRect2(ctxUi, 40, y - 30, 220, 25, 15, true, true);
 
             //Star
             ctxUi.fillStyle = upg_color;
-            ctxUi.fillRect(300, y - 30 + 10, 15, 5);
-            ctxUi.fillRect(305, y - 30 + 5, 5, 15);
+            ctxUi.fillRect(257, y - 30 + 10, 15, 5);
+            ctxUi.fillRect(262, y - 30 + 5, 5, 15);
 
             //Text
             ctxUi.fillStyle = 'white';
-            ctxUi.font = '14px Ubuntu';
-            ctxUi.fillText(upg_color_list[i].text, 360 / 2, y - 14);
-            ctxUi.fillText(`[${i}]`, 267, y - 14);
+            ctxUi.font = '13px Ubuntu';
+            ctxUi.fillText(upg_color_list[i].text, 160, y - 14);
+            ctxUi.fillText(`[${i}]`, 232, y - 14);
 
             
 
@@ -516,7 +526,7 @@ function roundRect2(ctx, x, y, width, height, radius, fill, stroke) {
 
 function notificationRect(text) {
     
-    if(showNotificationCounter > 150) {
+    if(showNotificationCounter > 100) {
         showNotificationCounter = 0;
         showNotification = false;
     }
